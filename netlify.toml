@@ -4,9 +4,3 @@
 [build.environment]
   YARN_VERSION = "1.3.2"
   YARN_FLAGS = "--no-ignore-optional"
-# Redirect /feed to WordPress auto-generated feed
-# [[redirects]]
-#   from = "/feed"
-#   to = "<WORDPRESS_URL>/feed/"
-#   status = 200
-#   force = true
