@@ -1,19 +1,25 @@
 import React, { Component } from 'react';
-import Img from 'gatsby-image';
+import Img from 'gatsby-image/withIEPolyfill';
 import './Image.scss';
 
 export default class Image extends Component {
   render() {
-    const { image, className = '' } = this.props;
-    if (!image) return <div className={`gatsby-image placeholder ${className}`} />;
+    const { image, className = '', ...props } = this.props;
     if (
-      image.localFile && image.localFile.childImageSharp && image.localFile.childImageSharp.fluid
+      (image && image.localFile && image.localFile.childImageSharp && image.localFile.childImageSharp.fluid) ||
+      (image && image.childImageSharp && image.childImageSharp.fluid)
     ) {
-      return <Img className={`gatsby-image ${className}`} fluid={image.localFile.childImageSharp.fluid} />;
+      return (
+        <Img
+          {...props}
+          className={className}
+          fluid={image.localFile ? image.localFile.childImageSharp.fluid : image.childImageSharp.fluid}
+        />
+      );
     }
-    if (image.url) {
-      return <img className={`gatsby-image ${className}`} src={image.url} alt={image.alt || ''} />;
+    if (image && image.url) {
+      return <img className={`gatsby-image-wrapper ${className}`} src={image.url} alt={image.alt || ''} />;
     }
-    return <div className={`gatsby-image placeholder ${className}`} />;
+    return <div className={`gatsby-image-wrapper placeholder ${className}`} />;
   }
 }

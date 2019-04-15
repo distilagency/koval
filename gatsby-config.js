@@ -55,6 +55,57 @@ module.exports = {
     pwaShortName: website.shortName,
   },
   plugins: [
+    {
+      resolve: `gatsby-plugin-feed`,
+      options: {
+        query: `
+          {
+            site {
+              siteMetadata {
+                siteUrl
+              }
+            }
+          }
+        `,
+        feeds: [
+          {
+            serialize: ({ query: { site, allWordpressPost } }) => {
+              return allWordpressPost.edges.map(({node: post}) => {
+                return Object.assign({}, post, {
+                  description: post.excerpt,
+                  title: post.title,
+                  date: post.date,
+                  url: `${site.siteMetadata.siteUrl}/${post.slug}`,
+                  guid: `${site.siteMetadata.siteUrl}/${post.slug}`,
+                  custom_elements: [{ "content:encoded": post.content }],
+                })
+              })
+            },
+            query: `
+              {
+                allWordpressPost(
+                  limit: 1000,
+                  sort: {order: DESC, fields: [date]},
+                  filter: {status: { ne: "draft" }}
+                ) {
+                  edges {
+                    node {
+                      title
+                      slug
+                      date
+                      excerpt
+                      content
+                    }
+                  }
+                }
+              }
+            `,
+            output: "/feed",
+            title: "RSS Feed",
+          },
+        ],
+      },
+    },
     'gatsby-plugin-react-helmet',
     {
       resolve: 'gatsby-plugin-sass',
