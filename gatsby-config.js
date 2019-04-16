@@ -62,7 +62,9 @@ module.exports = {
           {
             site {
               siteMetadata {
+                title
                 siteUrl
+                site_url: siteUrl
               }
             }
           }
@@ -72,6 +74,7 @@ module.exports = {
             serialize: ({ query: { site, allWordpressPost } }) => {
               return allWordpressPost.edges.map(({node: post}) => {
                 return Object.assign({}, post, {
+                  // RSS Feed item fields
                   description: post.excerpt,
                   title: post.title,
                   date: post.date,
@@ -101,7 +104,6 @@ module.exports = {
               }
             `,
             output: "/rss.xml",
-            title: "RSS Feed",
           },
         ],
       },
