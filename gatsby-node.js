@@ -6,10 +6,13 @@ const path = require('path');
 const { createFilePath } = require('gatsby-source-filesystem');
 const { paginate } = require('gatsby-awesome-pagination');
 
-const getOnlyPublished = edges => edges.filter(({ node }) => node.status === 'publish');
-
-const { WORDPRESS_PROTOCOL, WORDPRESS_URL, BLOG_SLUG, HOME_SLUG } = process.env;
+const { WORDPRESS_PROTOCOL, WORDPRESS_URL, BLOG_SLUG, HOME_SLUG, IS_STAGING } = process.env;
 const wordPressUrl = `${WORDPRESS_PROTOCOL}://${WORDPRESS_URL}`;
+
+const getOnlyPublished = edges => edges.filter(({ node }) => {
+  if (IS_STAGING === true) return node.status === 'staging' || node.status === 'publish';
+  return node.status === 'publish';
+});
 
 exports.createPages = ({ actions, graphql }) => {
   const { createPage } = actions
