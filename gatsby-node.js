@@ -10,7 +10,7 @@ const { WORDPRESS_PROTOCOL, WORDPRESS_URL, BLOG_SLUG, HOME_SLUG, IS_STAGING } = 
 const wordPressUrl = `${WORDPRESS_PROTOCOL}://${WORDPRESS_URL}`;
 
 const getOnlyPublished = edges => edges.filter(({ node }) => {
-  if (IS_STAGING === true) return node.status === 'staging' || node.status === 'publish';
+  if (IS_STAGING) return node.status === 'staging' || node.status === 'publish';
   return node.status === 'publish';
 });
 
