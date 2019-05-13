@@ -38,13 +38,15 @@
   "license": "MIT",
   "main": "n/a",
   "scripts": {
-    "start": "npm run develop",
-    "clean": "rimraf .cache public",
-    "build": "npm run clean && gatsby build",
-    "dev": "npm run clean && gatsby develop",
+    "build": "gatsby build",
+    "dev": "gatsby develop -o",
+    "netlify-dev": "netlify dev --live",
+    "develop": "gatsby develop",
     "serve": "gatsby serve",
-    "format": "prettier --trailing-comma es5 --no-semi --single-quote --write \"{gatsby-*.js,src/**/*.js}\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint . --ext .js,.jsx --ignore-path .gitignore",
+    "lint:fix": "eslint . --ext .js,.jsx --fix --ignore-path .gitignore",
+    "lint:ci": "yarn lint --format junit -o results/eslint/result.xml",
+    "format": "prettier \"**/*.md \" --write"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
