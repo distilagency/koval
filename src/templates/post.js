@@ -1,11 +1,12 @@
 import React from 'react';
 import { graphql, Link } from 'gatsby';
 import Layout from '../components/Layout';
+import Previewable from '../components/Previewable';
 import SEO from '../components/SEO';
 
-const BlogPost = ({ data }) => {
-  const { wordpressPost: post, site, location } = data;
-  const { title, content, yoast, categories, date, author } = post;
+const BlogPost = ({ data, location }) => {
+  const { wordpressPost: post, site } = data;
+  const { title, content, yoast, categories, date, author, slug } = post;
   const { title: siteTitle } = site.siteMetadata;
   return (
     <Layout location={location}>
@@ -23,13 +24,14 @@ const BlogPost = ({ data }) => {
   )
 }
 
-export default BlogPost
+export default Previewable(BlogPost);
 
 export const pageQuery = graphql`
   query BlogPostByID($id: String!) {
     site {
       siteMetadata {
-        title
+        title,
+        functionsUrl
       }
     }
     wordpressPost(id: { eq: $id }) {

@@ -42,6 +42,7 @@ module.exports = {
   pathPrefix: website.pathPrefix,
   siteMetadata: {
     siteUrl: BASE_URL + pathPrefix,
+    functionsUrl: `${NODE_ENV === 'development' ? BASE_URL.replace('8000', '9000') : BASE_URL}/.netlify/functions`,
     pathPrefix,
     title: website.title,
     description: website.description,
