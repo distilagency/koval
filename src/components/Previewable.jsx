@@ -12,28 +12,29 @@ export default function Previewable(WrappedComponent){
       const { site } = graphQLData;
       const { siteMetadata } = site;
       const { functionsUrl } = siteMetadata;
-      const queries = queryString.parse(location.search);
-      // Handle errors
-      let error = null;
-      if (!functionsUrl) error = 'Please make sure you add functionsUrl within the siteMetadata section in your pageQuery';
-      if (!functionsUrl) error = 'Please make sure you add functionsUrl within the siteMetadata section in your pageQuery';
-      if (!queries.posttype) error = 'Please include a posttype query string';
-      if (!queries.preview_id) error = 'Please include a preview_id query string';
       // Fetch preview data and save to state if conditions are met
-      if (queries && queries.preview_id && !error) {
+      const queries = queryString.parse(location.search);
+      if (queries && queries.preview_id) {
+        // Handle errors
+        let error = 'Opps something went wrong generating your preview';
+        if (!functionsUrl) error = 'Please make sure you add functionsUrl within the siteMetadata section in your pageQuery';
+        if (!functionsUrl) error = 'Please make sure you add functionsUrl within the siteMetadata section in your pageQuery';
+        if (!queries.posttype) error = 'Please include a posttype query string';
+        if (!queries.preview_id) error = 'Please include a preview_id query string';
         this.setState({ fetchingData: true, hasPreview: true });
         const previewRes = await axios.get(`${functionsUrl}/previews?endpoint=${queries.posttype}s&preview_id=${queries.preview_id}`);
         const { data } = previewRes;
         // If response comes back null or fails show error UI
         if (!data || !data.title) {
           error = 'Unable to fetch preview data, is your functionsUrl pointing at the correct endpoint?'
-        } else {
+        } else if(!error) {
           // Save new data to state
           this.setState({ fetchingData: false, newData: data });
+        } else {
+          // Handle error UI
+          this.setState({ error, fetchingData: false });
         }
       }
-      // Handle error UI
-      if (error) this.setState({ error, fetchingData: false });
     }
 
     render() {
