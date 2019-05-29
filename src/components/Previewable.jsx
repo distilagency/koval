@@ -16,7 +16,7 @@ export default function Previewable(WrappedComponent){
       const queries = queryString.parse(location.search);
       if (queries && queries.preview_id) {
         // Handle errors
-        let error = 'Opps something went wrong generating your preview';
+        let error = null;
         if (!functionsUrl) error = 'Please make sure you add functionsUrl within the siteMetadata section in your pageQuery';
         if (!functionsUrl) error = 'Please make sure you add functionsUrl within the siteMetadata section in your pageQuery';
         if (!queries.posttype) error = 'Please include a posttype query string';
@@ -32,7 +32,7 @@ export default function Previewable(WrappedComponent){
           this.setState({ fetchingData: false, newData: data });
         } else {
           // Handle error UI
-          this.setState({ error, fetchingData: false });
+          this.setState({ error: error || 'Oops something went wrong generating your preview', fetchingData: false });
         }
       }
     }
