@@ -71,13 +71,16 @@ exports.createPages = ({ actions, graphql }) => {
           });
         }
         // Create blank page for previews base
-        createPage({
-          path: 'preview/page',
-          component: pageTemplate,
-          context: {
-            id: 'preview-page',
-          },
-        });
+        // Use data from existing page as this will be replaced by previewable content
+        if (pages.length > 0) {
+          createPage({
+            path: 'preview/page',
+            component: pageTemplate,
+            context: {
+              id: pages[0].node.id,
+            },
+          });
+        }
       })
     })
     .then(() => {
@@ -123,13 +126,16 @@ exports.createPages = ({ actions, graphql }) => {
         })
       })
       // Create blank post for previews base
-      createPage({
-        path: 'preview/post',
-        component: postTemplate,
-        context: {
-          id: 'preview-post',
-        },
-      });
+      // Use data from existing post as this will be replaced by previewable content
+      if (posts.length > 0) {
+        createPage({
+          path: 'preview/post',
+          component: postTemplate,
+          context: {
+            id: posts[0].node.id,
+          },
+        });
+      }
 
       // Create a paginated blog, e.g., /, /page/2, /page/3
       paginate({
