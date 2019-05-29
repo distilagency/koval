@@ -61,6 +61,9 @@ export default function Previewable(WrappedComponent){
             ...data[graphQLKey],
             title: newData.title ? newData.title.rendered : null,
             content: newData.content ? newData.content.rendered : null,
+            yoast: {
+              metaTitle: 'Preview'
+            },
             acf: {
               layout: hasAcf ? newData.acf.layout.map((item, index) => ({ ...item, __typename: `WordPressAcf_${item.acf_fc_layout}`, id: index })) : []
             }

@@ -68,8 +68,16 @@ exports.createPages = ({ actions, graphql }) => {
             context: {
               id: page.id,
             },
-          })
+          });
         }
+        // Create blank page for previews base
+        createPage({
+          path: 'preview/page',
+          component: pageTemplate,
+          context: {
+            id: 'preview-page',
+          },
+        });
       })
     })
     .then(() => {
@@ -114,6 +122,14 @@ exports.createPages = ({ actions, graphql }) => {
           },
         })
       })
+      // Create blank post for previews base
+      createPage({
+        path: 'preview/post',
+        component: postTemplate,
+        context: {
+          id: 'preview-post',
+        },
+      });
 
       // Create a paginated blog, e.g., /, /page/2, /page/3
       paginate({

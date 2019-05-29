@@ -1,3 +1,3 @@
 module.exports = {
-  policy: [{ userAgent: '*', allow: '/' }]
+  policy: [{ userAgent: '*', allow: '/', disallow: ['/preview/*'] }]
 };
