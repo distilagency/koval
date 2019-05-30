@@ -27,6 +27,7 @@ const AcfComponent = ({ location, componentName, item }) => {
 
 const Page = ({ data, location }) => {
   const { wordpressPage: page, site } = data;
+  if (!page) return null;
   const { title, yoast, acf = {} } = page;
   const { layout } = acf;
   const { title: siteTitle } = site.siteMetadata;
@@ -62,7 +63,7 @@ export const pageQuery = graphql`
         functionsUrl
       }
     }
-    wordpressPage(id: { eq: $id }) {
+    wordpressPage(id: { glob: $id }) {
       title
       content
       yoast {

@@ -6,6 +6,7 @@ import SEO from '../components/SEO';
 
 const BlogPost = ({ data, location }) => {
   const { wordpressPost: post, site } = data;
+  if (!post) return null;
   const { title, content, yoast, categories, date, author, slug } = post;
   const { title: siteTitle } = site.siteMetadata;
   return (
@@ -34,7 +35,7 @@ export const pageQuery = graphql`
         functionsUrl
       }
     }
-    wordpressPost(id: { eq: $id }) {
+    wordpressPost(id: { glob: $id }) {
       id
       title
       slug
