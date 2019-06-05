@@ -65,6 +65,7 @@ export default function Previewable(WrappedComponent){
               metaTitle: 'Preview'
             },
             acf: {
+              ...newData.acf,
               layout: hasAcf ? newData.acf.layout.map((item, index) => ({ ...item, __typename: `WordPressAcf_${item.acf_fc_layout}`, id: index })) : []
             }
           }

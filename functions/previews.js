@@ -21,7 +21,7 @@ exports.handler = async (event) => {
   });
   const { data } = tokenReq;
   const { token } = data;
-  const revisionReq = await axios.get(`${WP_API}/wp/v2/${endpoint}/${previewId}/revisions`, {
+  const revisionReq = await axios.get(`${WP_API}/wp/v2/${endpoint}/${previewId}/revisions?_embed`, {
     headers: {
         Authorization : `Bearer ${token}`
       }
@@ -33,7 +33,7 @@ exports.handler = async (event) => {
     headers: {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin' : '*', // Required for CORS support to work
-      'Access-Control-Allow-Credentials' : true // Required for cookies, authorization headers with HTTPS
+      'Access-Control-Allow-Credentials' : 'true' // Required for cookies, authorization headers with HTTPS
     },
     body: JSON.stringify(res[0])
   };
