@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import queryString from 'query-string';
 import axios from 'axios';
-
+import './Previewable.scss';
 
 export default function Previewable(WrappedComponent){
   return class extends Component{
@@ -39,11 +39,12 @@ export default function Previewable(WrappedComponent){
 
     render() {
       const { data, location } = this.props;
-      const { fetchingData, hasPreview, newData, error } = this.state;
+      const { fetchingData, hasPreview, newData = {}, error } = this.state;
+      const { _embedded = null } = newData;
       const queries = queryString.parse(location.search);
       const { posttype } = queries;
       // Show fetching UI
-      if (fetchingData) return <p>Fetching preview</p>;
+      if (fetchingData) return <div className="fetching-preview"><span>Fetching preview...</span></div>;
       // Show error UI
       if (error) return <p>{error}</p>;
       // Show preview data
@@ -51,7 +52,8 @@ export default function Previewable(WrappedComponent){
         // Get post type with capitalise first letter
         const postType = posttype.charAt(0).toUpperCase() + posttype.substring(1, posttype.length);
         // Mimic GraphQL key
-        const graphQLKey = `wordpress${postType}`;
+        const isCustomPostType = posttype !== 'post' && posttype !== 'page';
+        const graphQLKey = `wordpress${isCustomPostType ? 'Wp' : ''}${postType}`;
         // Check for ACF
         const hasAcf = newData.acf && newData.acf.layout;
         // Generate preview data consisting of new and existing data
@@ -61,6 +63,10 @@ export default function Previewable(WrappedComponent){
             ...data[graphQLKey],
             title: newData.title ? newData.title.rendered : null,
             content: newData.content ? newData.content.rendered : null,
+            // author: _embedded && _embedded.author ? _embedded.author[0] : null,
+            // categories: _embedded && _embedded.categories && _embedded.categories.length > 0 ? _embedded.categories[0] : null,
+            // tags: _embedded && _embedded.tags && _embedded.tags.length > 0 ? _embedded.tags : null,
+            featuredImage: newData.featured_media ||  null,
             yoast: {
               metaTitle: 'Preview'
             },
