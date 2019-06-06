@@ -18,7 +18,6 @@ export default function Previewable(WrappedComponent){
         // Handle errors
         let error = null;
         if (!functionsUrl) error = 'Please make sure you add functionsUrl within the siteMetadata section in your pageQuery';
-        if (!functionsUrl) error = 'Please make sure you add functionsUrl within the siteMetadata section in your pageQuery';
         if (!queries.posttype) error = 'Please include a posttype query string';
         if (!queries.preview_id) error = 'Please include a preview_id query string';
         this.setState({ fetchingData: true, hasPreview: true });
@@ -56,7 +55,7 @@ export default function Previewable(WrappedComponent){
         const graphQLKey = `wordpress${isCustomPostType ? 'Wp' : ''}${postType}`;
         // Check for ACF
         const hasAcf = newData.acf && newData.acf.layout;
-        // Generate preview data consisting of new and existing data
+        // Generate preview data consisting of new and existing data (uncomment additional keys as need)
         const previewData = {
           ...data,
           [graphQLKey]: {
