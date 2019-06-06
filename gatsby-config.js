@@ -10,10 +10,6 @@ const {
   NODE_ENV,
   IS_STAGING,
   BASE_URL,
-  WORDPRESS_URL,
-  WORDPRESS_PROTOCOL,
-  JWT_USER,
-  JWT_PASSWORD,
   gatsby_executing_command: GATSBY_CMD,
   USE_ANALYSER
 } = process.env;
@@ -28,7 +24,7 @@ if (!IS_STAGING && NODE_ENV !== 'development') {
 
 if (GATSBY_CMD !== 'serve') {
   // Env variable check
-  const requiredEnvVariables = ['BASE_URL', 'WORDPRESS_URL', 'HOME_SLUG', 'WORDPRESS_PROTOCOL', 'JWT_USER', 'JWT_PASSWORD'];
+  const requiredEnvVariables = ['BASE_URL'];
   requiredEnvVariables.map((item) => {
     if (!process.env[item]) {
       throw Error(`Set ${item} env variable, ensure you have created .env.development and .env.production based on .env.template`);
@@ -56,59 +52,6 @@ module.exports = {
     pwaShortName: website.shortName,
   },
   plugins: [
-    {
-      resolve: `gatsby-plugin-feed`,
-      options: {
-        query: `
-          {
-            site {
-              siteMetadata {
-                title
-                siteUrl
-                site_url: siteUrl
-              }
-            }
-          }
-        `,
-        feeds: [
-          {
-            serialize: ({ query: { site, allWordpressPost } }) => {
-              return allWordpressPost.edges.map(({node: post}) => {
-                return Object.assign({}, post, {
-                  // RSS Feed item fields
-                  description: post.excerpt,
-                  title: post.title,
-                  date: post.date,
-                  url: `${site.siteMetadata.siteUrl}/${post.slug}`,
-                  guid: `${site.siteMetadata.siteUrl}/${post.slug}`,
-                  custom_elements: [{ "content:encoded": post.content }],
-                })
-              })
-            },
-            query: `
-              {
-                allWordpressPost(
-                  limit: 1000,
-                  sort: {order: DESC, fields: [date]},
-                  filter: {status: { ne: "draft" }}
-                ) {
-                  edges {
-                    node {
-                      title
-                      slug
-                      date
-                      excerpt
-                      content
-                    }
-                  }
-                }
-              }
-            `,
-            output: "/rss.xml",
-          },
-        ],
-      },
-    },
     'gatsby-plugin-react-helmet',
     {
       resolve: 'gatsby-plugin-sass',
@@ -117,41 +60,6 @@ module.exports = {
         includePaths: [
           'src/sass/base',
         ],
-      },
-    },
-    {
-      resolve: 'gatsby-source-wordpress',
-      options: {
-        // The base url to your WP site.
-        baseUrl: WORDPRESS_URL,
-        // WP.com sites set to true, WP.org set to false
-        hostingWPCOM: false,
-        // The protocol. This can be http or https.
-        protocol: WORDPRESS_PROTOCOL,
-        // Use 'Advanced Custom Fields' Wordpress plugin
-        useACF: true,
-        auth: {
-          jwt_user: JWT_USER,
-          jwt_pass: JWT_PASSWORD,
-        },
-        // Set to true to debug endpoints on 'gatsby build'
-        verboseOutput: false,
-        // Add custom taxonomy routes & custom post type routes here
-        includedRoutes: [
-          "/*/*/posts",
-          "/*/*/pages",
-          "/*/*/media",
-          "/*/*/categories",
-          "/*/*/tags",
-          "/*/*/taxonomies",
-          "/*/*/users",
-          "/*/*/users",
-          "/acf/v2/options",
-          "/jwt-auth/**",
-          "/yoast/**",
-          "/menus/**",
-          "/wp-api-menus/**",
-        ]
       },
     },
     {
