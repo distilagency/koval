@@ -1,5 +1,6 @@
 import React from 'react';
 import { graphql } from 'gatsby';
+import Previewable from '../components/Previewable';
 import Layout from '../components/Layout';
 import * as AcfLayout from '../acf';
 import SEO from '../components/SEO';
@@ -26,6 +27,7 @@ const AcfComponent = ({ location, componentName, item }) => {
 
 const Page = ({ data, location }) => {
   const { wordpressPage: page, site } = data;
+  if (!page) return null;
   const { title, yoast, acf = {} } = page;
   const { layout } = acf;
   const { title: siteTitle } = site.siteMetadata;
@@ -51,16 +53,17 @@ const Page = ({ data, location }) => {
   )
 }
 
-export default Page
+export default Previewable(Page);
 
 export const pageQuery = graphql`
   query PageById($id: String!) {
     site {
       siteMetadata {
-        title
+        title,
+        functionsUrl
       }
     }
-    wordpressPage(id: { eq: $id }) {
+    wordpressPage(id: { glob: $id }) {
       title
       content
       yoast {
