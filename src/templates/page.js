@@ -4,6 +4,7 @@ import Previewable from '../components/Previewable';
 import Layout from '../components/Layout';
 import * as AcfLayout from '../acf';
 import SEO from '../components/SEO';
+import { decodeEntities } from '../utils/htmlParse';
 
 const AcfComponent = ({ location, componentName, item }) => {
   // If component does not exist in acf folder, print error message
@@ -34,7 +35,11 @@ const Page = ({ data, location }) => {
   return (
     <Layout location={location}>
       <SEO
-        title={`${yoast.metaTitle || title} | ${siteTitle}`}
+        title={`${
+          yoast.metaTitle ?
+          decodeEntities(yoast.metaTitle) :
+          `${decodeEntities(title)} | ${decodeEntities(siteTitle)}`
+        }`}
         desc={yoast.metaDescription}
       />
       {layout && layout.map(item => {

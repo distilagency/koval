@@ -13,7 +13,7 @@ export default class IndexPage extends React.Component {
 
     return (
       <Layout location={location}>
-        <SEO title={`Latest posts | ${siteTitle}`} />
+        <SEO title={`Blog | ${siteTitle}`} />
         <PostList posts={posts} />
       </Layout>
     )

@@ -3,6 +3,7 @@ import { graphql, Link } from 'gatsby';
 import Layout from '../components/Layout';
 import Previewable from '../components/Previewable';
 import SEO from '../components/SEO';
+import { decodeEntities } from '../utils/htmlParse';
 
 const BlogPost = ({ data, location }) => {
   const { wordpressPost: post, site } = data;
@@ -12,7 +13,11 @@ const BlogPost = ({ data, location }) => {
   return (
     <Layout location={location}>
       <SEO
-        title={`${yoast.metaTitle || title} | ${siteTitle}`}
+        title={`${
+          yoast.metaTitle ?
+          decodeEntities(yoast.metaTitle) :
+          `${decodeEntities(title)} | ${decodeEntities(siteTitle)}`
+        }`}
         desc={yoast.metaDescription}
       />
       <section className="post-container">
