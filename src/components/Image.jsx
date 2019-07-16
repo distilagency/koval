@@ -17,8 +17,8 @@ export default class Image extends Component {
         />
       );
     }
-    if (image && image.url) {
-      return <img className={`gatsby-image-wrapper ${className}`} src={image.url} alt={image.alt || ''} />;
+    if (image && (image.url || image.source_url)) {
+      return <img className={`gatsby-image-wrapper ${className}`} src={image.url || image.source_url} alt={image.alt || ''} />;
     }
     return <div className={`gatsby-image-wrapper placeholder ${className}`} />;
   }

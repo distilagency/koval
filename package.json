@@ -44,6 +44,7 @@
   "scripts": {
     "build": "gatsby build && npm run build:lambda",
     "build:lambda": "netlify-lambda build functions",
+    "clean": "rimraf .cache public",
     "dev": "gatsby develop -o",
     "netlify-dev": "netlify dev --live",
     "develop": "gatsby develop",
