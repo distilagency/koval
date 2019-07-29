@@ -10,6 +10,7 @@ const {
   NODE_ENV,
   IS_STAGING,
   BASE_URL,
+  BLOG_SLUG,
   WORDPRESS_URL,
   WORDPRESS_PROTOCOL,
   JWT_USER,
@@ -43,6 +44,7 @@ module.exports = {
   siteMetadata: {
     siteUrl: BASE_URL + pathPrefix,
     functionsUrl: `${NODE_ENV === 'development' ? BASE_URL.replace('8000', '9000') : BASE_URL}/.netlify/functions`,
+    blogSlug: BLOG_SLUG,
     pathPrefix,
     title: website.title,
     description: website.description,
