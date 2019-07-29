@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import { Link } from 'gatsby';
+import Pagination from './Pagination';
 
 export default class PostList extends Component {
   render() {
-    const { posts, title = "Posts" } = this.props
-
+    const {
+      posts,
+      title = "Posts",
+      blogSlug,
+      pathPrefix,
+      pageContext
+    } = this.props;
     return (
       <section className="post-feed">
         <div className="wrapper">
@@ -15,12 +21,16 @@ export default class PostList extends Component {
                 const { title: postTitle, excerpt, featuredImage, slug } = post;
                 return (
                   <div className="feed-item" key={post.id}>
-                    <h2 dangerouslySetInnerHTML={{__html: postTitle}} />
+                    <Link to={`/${blogSlug}/${slug}/`}>
+                      <h2 dangerouslySetInnerHTML={{__html: postTitle}} />
+                    </Link>
+
                   </div>
                 );
               })}
             </div>
           )}
+          <Pagination pageContext={pageContext} pathPrefix={pathPrefix} />
         </div>
       </section>
     )
