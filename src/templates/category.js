@@ -12,7 +12,6 @@ const Category = props => {
   const { title: siteTitle } = site.siteMetadata;
   const { name: categoryName, slug: categorySlug } = pageContext;
   const title = `${totalCount} post${ totalCount === 1 ? '' : 's'} in the “${categoryName}” category`
-
   return (
     <Layout location={location}>
       <SEO title={`${decodeEntities(categoryName)} | ${decodeEntities(siteTitle)}`} />
@@ -27,7 +26,6 @@ const Category = props => {
     </Layout>
   )
 }
-
 export default Category
 
 export const pageQuery = graphql`
@@ -50,15 +48,15 @@ export const pageQuery = graphql`
       edges {
         node {
           id
-          # featuredImage: featured_media {
-          #   localFile {
-          #     childImageSharp {
-          #       fluid(maxWidth: 1200, quality: 90) {
-          #         ...GatsbyImageSharpFluid_withWebp_tracedSVG
-          #       }
-          #     }
-          #   }
-          # }
+          featuredImage: featured_media {
+            localFile {
+              childImageSharp {
+                fluid(maxWidth: 1200, quality: 90) {
+                  ...GatsbyImageSharpFluid_withWebp_tracedSVG
+                }
+              }
+            }
+          }
           title
           excerpt
           date(formatString: "MMMM DD, YYYY")

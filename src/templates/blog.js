@@ -14,7 +14,6 @@ export default class BlogPage extends React.Component {
       blogSlug
     } = site.siteMetadata;
     const { edges: posts } = allWordpressPost
-
     return (
       <Layout location={location}>
         <SEO title={`Blog | ${decodeEntities(siteTitle)}`} />
@@ -46,15 +45,15 @@ export const pageQuery = graphql`
       edges {
         node {
           id
-          # featuredImage: featured_media {
-          #   localFile {
-          #     childImageSharp {
-          #       fluid(maxWidth: 1200, quality: 90) {
-          #         ...GatsbyImageSharpFluid_withWebp_tracedSVG
-          #       }
-          #     }
-          #   }
-          # }
+          featuredImage: featured_media {
+            localFile {
+              childImageSharp {
+                fluid(maxWidth: 1200, quality: 90) {
+                  ...GatsbyImageSharpFluid_withWebp_tracedSVG
+                }
+              }
+            }
+          }
           title
           excerpt
           date(formatString: "MMMM DD, YYYY")

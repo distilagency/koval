@@ -206,3 +206,17 @@ exports.createPages = ({ actions, graphql }) => {
     })
   })
 }
+
+// Set featured_media field for WordPress Post GraphQL node
+exports.sourceNodes = ({ actions }) => {
+  const { createTypes } = actions
+  const typeDefs = `
+    type wordpress__POST implements Node {
+      featured_media: wordpress__wp_media
+    }
+    type wordpress__wp_media implements Node {
+      localFile: File
+    }
+  `
+  createTypes(typeDefs)
+}

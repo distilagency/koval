@@ -8,7 +8,16 @@ import { decodeEntities } from '../utils/htmlParse';
 const BlogPost = ({ data, location }) => {
   const { wordpressPost: post, site } = data;
   if (!post) return null;
-  const { title, content, yoast, categories, date, author, slug } = post;
+  const {
+    title,
+    content,
+    featuredImage,
+    yoast,
+    categories,
+    date,
+    author,
+    slug
+  } = post;
   const { title: siteTitle } = site.siteMetadata;
   return (
     <Layout location={location}>
@@ -46,6 +55,15 @@ export const pageQuery = graphql`
       slug
       content
       date(formatString: "MMMM DD, YYYY")
+      featuredImage: featured_media {
+        localFile {
+          childImageSharp {
+            fluid(maxWidth: 1200, quality: 90) {
+              ...GatsbyImageSharpFluid_withWebp_tracedSVG
+            }
+          }
+        }
+      }
       categories {
         name
         slug
