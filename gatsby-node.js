@@ -67,16 +67,13 @@ exports.createPages = ({ actions, graphql }) => {
     // Call `createPage()` once per WordPress page
     pages.forEach(({ node: page }) => {
       const splat = page.link.replace(wordPressUrl, '');
-      // Only create the page if it contains ACF components
-      if (page.acf !== null) {
-        createPage({
-          path: splat,
-          component: pageTemplate,
-          context: {
-            id: page.id,
-          },
-        });
-      }
+      createPage({
+        path: splat,
+        component: pageTemplate,
+        context: {
+          id: page.id,
+        },
+      });
     })
     // Create blank page for previews base
     // Use data from existing page as this will be replaced by previewable content
