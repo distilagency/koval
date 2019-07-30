@@ -21,7 +21,7 @@ const Category = props => {
         blogSlug={site.siteMetadata.blogSlug}
         pageContext={pageContext}
         siteMetadata={site.siteMetadata}
-        pathPrefix={`/${site.siteMetadata.blogSlug}/category/${categorySlug}/`}
+        pathPrefix={`${site.siteMetadata.blogSlug}/category/${categorySlug}`}
       />
     </Layout>
   )
