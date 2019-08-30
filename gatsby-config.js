@@ -136,6 +136,11 @@ module.exports = {
           jwt_user: JWT_USER,
           jwt_pass: JWT_PASSWORD,
         },
+        // Search and Replace Urls across WordPress content.
+        searchAndReplaceContentUrls: {
+          sourceUrl: `${WORDPRESS_PROTOCOL}://${WORDPRESS_URL}/`,
+          replacementUrl: '/',
+        },
         // Set to true to debug endpoints on 'gatsby build'
         verboseOutput: false,
         // Add custom taxonomy routes & custom post type routes here
