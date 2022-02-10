@@ -27,7 +27,7 @@
     "gatsby-source-wordpress": "^3.0.1",
     "gatsby-transformer-sharp": "^2.1.1",
     "netlify-lambda": "^1.4.13",
-    "node-sass": "^4.9.2",
+    "node-sass": "^7.0.0",
     "parcel-bundler": "^1.9.4",
     "prop-types": "^15.6.0",
     "query-string": "^6.5.0",
